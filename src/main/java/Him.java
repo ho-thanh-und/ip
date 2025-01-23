@@ -7,7 +7,7 @@ public class Him {
         System.out.println("What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<String> todos = new ArrayList<>();
+        ArrayList<Task> todos = new ArrayList<>();
 
         /*
           While loop is used for the echoing functionality:
@@ -16,6 +16,7 @@ public class Him {
          */
         while (true) {
             String input = scanner.nextLine();
+            String fstWord = input.split(" ")[0];
             if (input.equals("thank you")) {
                 System.out.println("You're welcome, kind individual!");
                 break;
@@ -24,11 +25,23 @@ public class Him {
                  */
             } else if (input.equals("list")) {
                 int i = 1;
-                for (String todo : todos) {
+                for (Task todo : todos) {
                     System.out.printf("%d. %s%n", i++, todo);
                 }
+            } else if (fstWord.equals("mark")) {
+                int num = Integer.parseInt(input.split(" ")[1]);
+                Task task = todos.get(num - 1);
+                task.markAsDone();
+                System.out.println("Congrats! Another task down: ");
+                System.out.println(todos.get(num - 1));
+            } else if (fstWord.equals("unmark")) {
+                int num = Integer.parseInt(input.split(" ")[1]);
+                Task task = todos.get(num - 1);
+                task.unmarkAsDone();
+                System.out.println("No worries! I'll unmark that for you: ");
+                System.out.println(todos.get(num - 1));
             } else {
-                todos.add(input);
+                todos.add(new Task(input));
                 System.out.println("added: " + input);
             }
         }
