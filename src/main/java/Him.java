@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Him {
@@ -6,6 +7,7 @@ public class Him {
         System.out.println("What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> todos = new ArrayList<>();
 
         /*
           While loop is used for the echoing functionality:
@@ -14,11 +16,20 @@ public class Him {
          */
         while (true) {
             String input = scanner.nextLine();
-            if (input.equals("bye")) {
-                System.out.println("See you later Aligator!");
+            if (input.equals("thank you")) {
+                System.out.println("You're welcome, kind individual!");
                 break;
+                /*
+                - Used ArrayList for adjustable array size
+                 */
+            } else if (input.equals("list")) {
+                int i = 1;
+                for (String todo : todos) {
+                    System.out.printf("%d. %s%n", i++, todo);
+                }
             } else {
-                System.out.println(input);
+                todos.add(input);
+                System.out.println("added: " + input);
             }
         }
     }
