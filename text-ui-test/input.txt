@@ -1,0 +1,7 @@
+todo borrow book
+list
+deadline return book /by Friday
+event fns meeting /at Mon 2-4pm
+mark 3
+list
+thank you
