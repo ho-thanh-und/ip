@@ -1,7 +1,7 @@
 public class Him {
     public static void main(String[] args) {
-        Ui ui = new Ui();
-        System.out.println(ui.getWelcome());
-        System.out.println(ui.getFarewell());
+        System.out.println("Hello! I'm Him");
+        System.out.println("What can I do for you?");
+        System.out.println("Bye. Hope to see you again soon!");
     }
 }
