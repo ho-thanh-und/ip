@@ -40,9 +40,32 @@ public class Him {
                 task.unmarkAsDone();
                 System.out.println("No worries! I'll unmark that for you: ");
                 System.out.println(todos.get(num - 1));
+            } else if (fstWord.equals("todo")) {
+                System.out.println("Gotcha bro! I've added this task:");
+                Task todo = new ToDo(input.substring(5));
+                System.out.println(todo);
+                todos.add(todo);
+                System.out.printf("Now you have %d tasks in your list%n", todos.size());
             } else {
-                todos.add(new Task(input));
-                System.out.println("added: " + input);
+                String substring = input.substring(input.indexOf('/') + 4);
+                if (fstWord.equals("deadline")) {
+                    System.out.println("Gotcha bro! I've added this task:");
+                    Task deadline = new Deadline(input.substring(9, input.indexOf('/')),
+                            substring);
+                    System.out.println(deadline);
+                    todos.add(deadline);
+                    System.out.printf("Now you have %d tasks in your list%n", todos.size());
+                } else if (fstWord.equals("event")) {
+                    System.out.println("Gotcha bro! I've added this task:");
+                    Task event = new Event(input.substring(6, input.indexOf('/')),
+                            substring);
+                    System.out.println(event);
+                    todos.add(event);
+                    System.out.printf("Now you have %d tasks in your list%n", todos.size());
+                } else {
+                    todos.add(new Task(input));
+                    System.out.println("added: " + input);
+                }
             }
         }
     }
