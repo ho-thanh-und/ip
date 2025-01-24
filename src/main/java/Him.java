@@ -17,7 +17,7 @@ public class Him {
         while (true) {
             String input = scanner.nextLine();
             String[] words = input.split(" ");
-            String fstWord = words[0]; // Access the first word (safe since every input has at least one word)
+            String fstWord = words[0];
 
             if (input.equals("thank you")) {
                 System.out.println("You're welcome, kind individual!");
@@ -76,7 +76,7 @@ public class Him {
                     todos.add(todo);
                     System.out.println("Gotcha bro! I've added this task:");
                     System.out.println(todo);
-                    System.out.printf("Now you have %d tasks in your list%n", todos.size());
+                    System.out.printf("Now you have %d task(s) in your list%n", todos.size());
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 }
@@ -94,7 +94,7 @@ public class Him {
                     todos.add(deadline);
                     System.out.println("Gotcha bro! I've added this task:");
                     System.out.println(deadline);
-                    System.out.printf("Now you have %d tasks in your list%n", todos.size());
+                    System.out.printf("Now you have %d task(s) in your list%n", todos.size());
                 } catch (IllegalArgumentException e) {
                     System.out.println("Uh Oh! " + e.getMessage());
                 }
@@ -112,13 +112,31 @@ public class Him {
                     todos.add(event);
                     System.out.println("Gotcha bro! I've added this task:");
                     System.out.println(event);
-                    System.out.printf("Now you have %d tasks in your list%n", todos.size());
+                    System.out.printf("Now you have %d task(s) in your list%n", todos.size());
                 } catch (IllegalArgumentException e) {
                     System.out.println("Uh Oh! " + e.getMessage());
                 }
+            } else if (fstWord.equals("delete")) {
+                try {
+                    if (words.length < 2) {
+                        throw new IllegalArgumentException("How many tasks would you like me to delete?");
+                    }
+                    int deleteNum = Integer.parseInt(words[1]);
+                    if (deleteNum < 1 || deleteNum > todos.size()) {
+                        throw new IllegalArgumentException("Oops! It should be an integer!");
+                    }
+                    Task deleted = todos.get(deleteNum - 1);
+                    todos.remove(deleteNum - 1);
+                    System.out.println("No worries! I'll remove that for you: ");
+                    System.out.println(deleted);
+                    System.out.printf("Now you have %d task(s) in your list%n", todos.size());
+                } catch (NumberFormatException e) {
+                    System.out.println("Oops! It should be an integer!");
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
             } else {
-                todos.add(new Task(input));
-                System.out.println("added: " + input);
+                System.out.println("Sorry, I don't know what that means!");
             }
         }
     }
