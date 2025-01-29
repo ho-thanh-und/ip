@@ -6,8 +6,8 @@ public class Deadline extends Task {
      * @param description description
      * @param by by
      */
-    public Deadline(String description, String by) {
-        super(description);
+    public Deadline(String description, String by, boolean isDone) {
+        super(description, isDone);
         this.by = by;
     }
 
@@ -18,5 +18,10 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
+    }
+
+    @Override
+    public String toFile() {
+        return "D | " + super.toFile();
     }
 }

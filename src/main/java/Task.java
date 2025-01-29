@@ -6,7 +6,7 @@ public class Task {
      * Creates a new task with its description and is set to false as default
      * @param description is the description of the task (input from user)
      */
-    public Task(String description) {
+    public Task(String description, boolean isDone) {
         this.description = description;
         this.isDone = false;
     }
@@ -36,5 +36,13 @@ public class Task {
     @Override
     public String toString() {
         return String.format("[%s] %s", this.getStatusIcon(), this.description);
+    }
+
+    public String toFile() {
+        if (this.isDone) {
+            return "1 | " + this.description;
+        } else {
+            return "0 | " + this.description;
+        }
     }
 }
