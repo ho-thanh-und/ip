@@ -17,7 +17,7 @@ public class Storage {
     }
 
 
-    public static ArrayList<Task> getPreviousTasks() throws FileNotFoundException {
+    public static ArrayList<Task> getPreviousTasks(String filePath) throws FileNotFoundException {
         File file = new File("data/data.txt");
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner input = new Scanner(file);
