@@ -6,9 +6,19 @@ public class Task {
      * Creates a new task with its description and is set to false as default
      * @param description is the description of the task (input from user)
      */
-    public Task(String description, boolean isDone) {
+    public Task(String description) {
         this.description = description;
         this.isDone = false;
+    }
+
+    /**
+     * Create a task and allows the user to set to whether or not its complete
+     * @param description description
+     * @param isDone is defined by whether it is done or not (when loading a saved deadline)
+     */
+    public Task(String description, boolean isDone) {
+        this.description = description;
+        this.isDone = isDone;
     }
 
     /**
