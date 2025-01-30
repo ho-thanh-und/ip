@@ -6,16 +6,38 @@ import java.util.Optional;
 public class Deadline extends Task {
     protected String by;
     protected Optional<LocalDate> dueDate;
+    protected boolean dueDatePresent;
 
     /**
-     * Creates a Deadline object with its description and deadline
+     * Creates a deadline object with given description and time to complete (by)
      * @param description description
      * @param by by
+     */
+    public Deadline(String description, String by) {
+        super(description);
+        this.by = by;
+        dueDatePresent = false;
+        if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            this.dueDate = Optional.of(LocalDate.parse(this.by));
+            dueDatePresent = true;
+        }
+    }
+
+    /**
+     * Create a deadline object with given description, time to complete (by)
+     * and a specified completion status
+     * @param description description
+     * @param by by
+     * @param isDone isDone
      */
     public Deadline(String description, String by, boolean isDone) {
         super(description, isDone);
         this.by = by;
-        this.dueDate = parseDate(by);
+        dueDatePresent = false;
+        if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            this.dueDate = Optional.of(LocalDate.parse(this.by));
+            dueDatePresent = true;
+        }
     }
 
     /**
@@ -23,13 +45,13 @@ public class Deadline extends Task {
      * @param date date
      * @return an Optional
      */
-    private Optional<LocalDate> parseDate(String date) {
-        try {
-            return Optional.of(LocalDate.parse(date));
-        } catch (DateTimeParseException e) {
-            return Optional.empty();
-        }
-    }
+//    private Optional<LocalDate> parseDate(String date) {
+//        try {
+//            return Optional.of(LocalDate.parse(date));
+//        } catch (DateTimeParseException e) {
+//            return Optional.empty();
+//        }
+//    }
 
     /**
      * Gives a string representation of the Deadline object
