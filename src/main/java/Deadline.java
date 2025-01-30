@@ -60,10 +60,12 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return dueDate
-                .map(localDate -> "[D]" + super.toString() + " (by: " +
-                        localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")")
-                .orElse("[D]" + super.toString() + " (by: " + by + ")");
+                .filter(d -> dueDatePresent)  // Ensure dueDate is present before formatting
+                .map(localDate -> "[D]" + super.toString() +
+                        String.format(" (by: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
+                .orElse("[D]" + super.toString() + String.format(" (by: %s)", by));
     }
+
 
     @Override
     public String toFile() {
