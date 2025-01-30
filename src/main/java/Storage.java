@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Deals with loading and saving tasks
+ */
+
 public class Storage {
     public String filePath;
 
