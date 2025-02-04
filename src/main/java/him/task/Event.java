@@ -22,6 +22,8 @@ public class Event extends Task {
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueTime = Optional.of(LocalDate.parse(this.time));
             timePresent = true;
+        } else {
+            this.dueTime = Optional.empty();
         }
     }
 
@@ -37,6 +39,8 @@ public class Event extends Task {
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueTime = Optional.of(LocalDate.parse(this.time));
             timePresent = true;
+        } else {
+            this.dueTime = Optional.empty();
         }
     }
 

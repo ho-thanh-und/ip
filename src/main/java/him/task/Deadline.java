@@ -22,6 +22,8 @@ public class Deadline extends Task {
         if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueDate = Optional.of(LocalDate.parse(this.by));
             dueDatePresent = true;
+        } else {
+            this.dueDate = Optional.empty();
         }
     }
 
@@ -39,15 +41,12 @@ public class Deadline extends Task {
         if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueDate = Optional.of(LocalDate.parse(this.by));
             dueDatePresent = true;
+        } else {
+            this.dueDate = Optional.empty();
         }
     }
 
-    /**
-     * Parse a date String into Local Date if in the expected format
-     * @param date date
-     * @return an Optional
-     */
-//    private Optional<LocalDate> parseDate(String date) {
+    //    private Optional<LocalDate> parseDate(String date) {
 //        try {
 //            return Optional.of(LocalDate.parse(date));
 //        } catch (DateTimeParseException e) {
