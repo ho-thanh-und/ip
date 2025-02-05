@@ -53,6 +53,16 @@ public class Task {
     }
 
     /**
+     * Retrieves the task's description.
+     *
+     * @return The task description as a string.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+
+    /**
      * Returns a String representation of the task.
      *
      * @return a formatted String containing the status icon and the description.
