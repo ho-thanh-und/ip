@@ -10,18 +10,30 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * The main entry point for the chatbot.
+ * This class manages user interactions and task storage.
+ */
 public class Him {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
-
     private ArrayList<Task> todo;
 
+    /**
+     * Default constructor for Him.
+     * Initializes an empty task list.
+     */
     public Him() {
         this.todo = new ArrayList<>();
     }
 
+    /**
+     * Initializes Him with a file path for storing tasks.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Him(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -34,6 +46,9 @@ public class Him {
         }
     }
 
+    /**
+     * Runs the main program loop to handle user input.
+     */
     public void run() {
         ui.welcomeMsg();
         try {
