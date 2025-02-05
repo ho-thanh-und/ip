@@ -15,7 +15,6 @@ public class Him {
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
-
     private ArrayList<Task> todo;
 
     public Him() {
