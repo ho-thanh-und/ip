@@ -70,6 +70,13 @@ public class Him {
                     tasks.deleteTaskByIndex(index);
                 } else if (input.equalsIgnoreCase("list")) {
                     tasks.displayToDo();
+                } else if (input.startsWith("find")) {
+                    String keyword = input.substring(5).trim(); // Extract keyword
+                    if (keyword.isEmpty()) {
+                        Ui.print("Please provide a keyword");
+                    } else {
+                        tasks.findTask(keyword);
+                    }
                 } else {
                     String[] parsedInput = parser.parse(input, 2);
                     if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {

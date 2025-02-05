@@ -8,6 +8,8 @@ import him.task.ToDo;
 import him.ui.Ui;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Deals with the logic of tasks, including adding, retrieving, marking as done, deleting, and displaying tasks.
@@ -126,6 +128,32 @@ public class TaskList {
             Ui.print("No worries! I'll remove that for you: ");
             Ui.print(deleted.toString());
             Ui.print(String.format("Now you have %d task(s) in your todo-list", todos.size()));
+        }
+    }
+
+    /**
+     * Finds and displays tasks that match the given keyword in the description.
+     *
+     * @param keyword The keyword used to search.
+     */
+    public void findTask(String keyword) {
+        String lowerKeyword = keyword.toLowerCase();
+
+        List<Task> matchingTasks;
+        matchingTasks = todos.stream()
+                .filter(task -> {
+                    return task.getDescription().toLowerCase().contains(lowerKeyword);
+                })
+                .toList();
+
+        if (matchingTasks.isEmpty()) {
+            Ui.print("I can't find the task(s) you're looking for");
+            return;
+        }
+
+        Ui.print("Here you go: ");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            Ui.print(String.format("%d. %s", i + 1, matchingTasks.get(i)));
         }
     }
 }
