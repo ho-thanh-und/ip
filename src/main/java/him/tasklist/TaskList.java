@@ -77,7 +77,7 @@ public class TaskList {
         Ui.print("Here are your tasks: ");
         int i = 1;
         for (Task todo : todos) {
-            String res = System.out.printf("%d. %s%n", i++, todo).toString();
+            String res = String.format("%d. %s", i++, todo);
             Ui.print(res);
         }
     }
