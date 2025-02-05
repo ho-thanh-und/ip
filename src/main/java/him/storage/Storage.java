@@ -16,15 +16,26 @@ import java.util.Scanner;
 /**
  * Deals with loading and saving tasks
  */
-
 public class Storage {
-    public String filePath;
+    private final String filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The file path where tasks will be stored.
+     */
     public Storage (String filePath) {
         this.filePath = filePath;
     }
 
 
+    /**
+     * Gets previously saved tasks from the specified file.
+     *
+     * @param filePath The file path where tasks are stored.
+     * @return A list of tasks retrieved from the file.
+     * @throws FileNotFoundException If the file does not exist.
+     */
     public static ArrayList<Task> getPreviousTasks(String filePath) throws FileNotFoundException {
         File file = new File("data/data.txt");
         ArrayList<Task> tasks = new ArrayList<>();
@@ -51,10 +62,22 @@ public class Storage {
         return tasks;
     }
 
-    public static boolean getBooleanFromString(String s) {
-        return !s.equals("0");
+    /**
+     * Converts a string representation of a boolean to an actual boolean value.
+     *
+     * @param value The string representation of a boolean.
+     * @return {@code true} if the value is "1", otherwise {@code false}.
+     */
+    public static boolean getBooleanFromString(String value) {
+        return !value.equals("0");
     }
 
+    /**
+     * Saves the given list of tasks to the file.
+     *
+     * @param tasks The list of tasks to be saved.
+     * @throws IOException If an I/O error occurs while writing to the file.
+     */
     public static void fillFileWithTasks(ArrayList<Task> tasks) throws IOException {
         FileWriter fw = new FileWriter("data/data.txt");
         String accumulatedTasks = "";

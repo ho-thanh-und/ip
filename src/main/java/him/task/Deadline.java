@@ -5,15 +5,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+/**
+ * Represents a task with a deadline. The task can store a due date in either string format or as a LocalDate object.
+ */
 public class Deadline extends Task {
     protected String by;
     protected Optional<LocalDate> dueDate;
     protected boolean dueDatePresent;
 
     /**
-     * Creates a deadline object with given description and time to complete (by)
-     * @param description description
-     * @param by by
+     * Creates a Deadline object with a given description and deadline date.
+     *
+     * @param description The description of the task.
+     * @param by The deadline date in String format.
      */
     public Deadline(String description, String by) {
         super(description);
@@ -28,11 +32,11 @@ public class Deadline extends Task {
     }
 
     /**
-     * Create a deadline object with given description, time to complete (by)
-     * and a specified completion status
-     * @param description description
-     * @param by by
-     * @param isDone isDone
+     * Creates a Deadline object with a given description, deadline date, and completion status.
+     *
+     * @param description The description of the task.
+     * @param by The deadline date in String format.
+     * @param isDone The completion status of the task.
      */
     public Deadline(String description, String by, boolean isDone) {
         super(description, isDone);
@@ -46,17 +50,11 @@ public class Deadline extends Task {
         }
     }
 
-    //    private Optional<LocalDate> parseDate(String date) {
-//        try {
-//            return Optional.of(LocalDate.parse(date));
-//        } catch (DateTimeParseException e) {
-//            return Optional.empty();
-//        }
-//    }
-
     /**
-     * Gives a string representation of the Deadline object
-     * @return formatted String with date if valid, or else just return a regular String
+     * Returns a string representation of the Deadline object.
+     * The format varies depending on whether the deadline is in a valid date format.
+     *
+     * @return A formatted string containing the task type, completion status, description, and deadline.
      */
     @Override
     public String toString() {
@@ -67,7 +65,11 @@ public class Deadline extends Task {
                 .orElse("[D]" + super.toString() + String.format(" (by: %s)", by));
     }
 
-
+    /**
+     * Returns a string representation of the Deadline object in a format suitable for file storage.
+     *
+     * @return A formatted string representing the deadline task for file storage.
+     */
     @Override
     public String toFile() {
         return "D | " + super.toFile() + " | " + dueDate.map(LocalDate::toString).orElse(by);
