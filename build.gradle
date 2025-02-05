@@ -46,14 +46,22 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("him.himhome.Him")
 }
 
 shadowJar {
+    archiveFileName.set("him.jar")
     archiveBaseName = "duke"
     archiveClassifier = null
 }
 
-run{
+run {
     standardInput = System.in
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
