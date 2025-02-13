@@ -36,8 +36,8 @@ public class Ui {
     /**
      * Displays the farewell message when the program exits.
      */
-    public void farewellMsg() {
-        print("Glad to be of service");
+    public String farewellMsg() {
+        return "Glad to be of service";
     }
 
     /**
