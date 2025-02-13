@@ -6,7 +6,6 @@ import him.task.Task;
 import him.tasklist.TaskList;
 import him.ui.Ui;
 
-import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -19,21 +18,7 @@ public class Him {
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
-    private ArrayList<Task> todo;
 
-    /**
-     * Default constructor for Him.
-     * Initializes an empty task list.
-     */
-    public Him() {
-        this.todo = new ArrayList<>();
-    }
-
-    /**
-     * Initializes Him with a file path for storing tasks.
-     *
-     * @param filePath The file path where tasks are stored.
-     */
     public Him(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -41,62 +26,60 @@ public class Him {
 
         try {
             tasks = new TaskList(Storage.getPreviousTasks(filePath));
-        } catch (FileNotFoundException  e) {
+        } catch (FileNotFoundException e) {
             tasks = new TaskList();
         }
     }
 
-    /**
-     * Runs the main program loop to handle user input.
-     */
-    public void run() {
-        ui.welcomeMsg();
-        try {
-            while (true) {
-                String input = ui.getInput();
-                if (input.equalsIgnoreCase("bye")) {
-                    ui.farewellMsg();
-                    try {
-                        Storage.fillFileWithTasks(tasks.getToDoList());
-                    } catch (IOException e) {
-                        Ui.print("Error saving to file, make sure 'data.txt' is present in '/data/'");
-                    }
-                    break;
-                } else if (input.startsWith("done")) {
-                    int index = Integer.parseInt(parser.parse(input, 2)[1]);
-                    tasks.markDone(index);
-                } else if (input.startsWith("delete")) {
-                    int index = Integer.parseInt(parser.parse(input, 2)[1]);
-                    tasks.deleteTaskByIndex(index);
-                } else if (input.equalsIgnoreCase("list")) {
-                    tasks.displayToDo();
-                } else if (input.startsWith("find")) {
-                    String keyword = input.substring(5).trim(); // Extract keyword
-                    if (keyword.isEmpty()) {
-                        Ui.print("Please provide a keyword");
-                    } else {
-                        tasks.findTask(keyword);
-                    }
-                } else {
-                    String[] parsedInput = parser.parse(input, 2);
-                    if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
-                        try {
-                            tasks.addToDo(parsedInput[0], parsedInput[1]);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Ui.print("Oops, what's the task description?");
-                        }
-                    } else {
-                        Ui.print("Oops, I don't know what this means.");
-                    }
-                }
-            }
-        } catch (java.util.NoSuchElementException e) {
-            Ui.print("See you next time!");
-        }
+    public Him() {
+        this("data" + java.io.File.separator + "data.txt");
     }
-    public static void main(String[] args) {
-        Him him = new Him("data/him.txt");
-        him.run();
+
+    public String getResponse(String input) {
+        ui.welcomeMsg();
+        if (input == null) {
+            return "Input cannot be null. Please provide a valid command.";
+        }
+        String output = "";
+        if (input.equalsIgnoreCase("bye")) {
+            output += ui.farewellMsg();
+            try {
+                storage.fillFileWithTasks(tasks.getToDoList());
+            } catch (IOException e) {
+                output += "Error saving to file. Please check if 'data.txt' is present in '/data/'.";
+            }
+        } else if (input.startsWith("done")) {
+            try {
+                int index = Integer.parseInt(parser.parse(input, 2)[1]);
+                output = tasks.markDone(index);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                output += "Invalid input for 'done' command. Please provide a valid task index.";
+            }
+        } else if (input.startsWith("delete")) {
+            try {
+                int index = Integer.parseInt(parser.parse(input, 2)[1]);
+                output = tasks.deleteTaskByIndex(index);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                output += "Invalid input for 'delete' command. Please provide a valid task index.";
+            }
+        } else if (input.equalsIgnoreCase("list")) {
+            output = tasks.displayToDo();
+        } else if (input.startsWith("find")) {
+            String[] parsedInput = parser.parse(input, 2);
+            output = tasks.findTask(parsedInput[1]);
+        } else {
+            String[] parsedInput = parser.parse(input, 2);
+            if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
+                try {
+                    tasks.addToDo(parsedInput[0], parsedInput[1]);
+                    output += "Got it. I've added this task.";
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    output += "OOPS, task description cannot be empty.";
+                }
+            } else {
+                output += "OOPS, I don't understand this input. Please use a known command and try again.";
+            }
+        }
+        return output;
     }
 }
-

@@ -46,7 +46,7 @@ test {
 }
 
 application {
-    mainClass.set("him.himhome.Him")
+    mainClass.set("him.himhome.Launcher")
 }
 
 shadowJar {

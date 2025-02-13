@@ -50,15 +50,16 @@ public class TaskList {
      * @param todo The type of task ("todo", "event", or "deadline").
      * @param description The description of the task, including date/time if applicable.
      */
-    public void addToDo(String todo, String description) {
+    public String addToDo(String todo, String description) {
         Task task = new Task("anything");
+        String output = "";
         if (todo.equals("event")) {
             try {
                 String[] args = description.split("/", 2);
                 task = new Event(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
-                ui.eventErrorMsg();
+                return "Oops, what's the task description?";
             }
         } else if (todo.equals("deadline")) {
             try {
@@ -66,16 +67,17 @@ public class TaskList {
                 task = new Deadline(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
-                ui.deadlineErrorMsg();
+                return "Oops, what's the task description?";
             }
         } else {
             task = new ToDo(description);
-            todos.add(task);
+            this.todos.add(task);
         }
 
-        Ui.print("Gotcha bro! I've added this task:");
-        Ui.print(todo.toString());
-        System.out.printf("Now you have %d task(s) in your todo-list%n", todos.size());
+        output += "Gotcha bro! I've added this task:\n";
+        output += task.toString() + "\n";
+        output += String.format("Now you have %d task(s) in your todo-list.\n", this.todos.size());
+        return output;
     }
 
     /**
@@ -92,26 +94,29 @@ public class TaskList {
      *
      * @param index The index of the task to mark as done.
      */
-    public void markDone(int index) {
+    public String markDone(int index) {
         if (index > todos.size()) {
-            Ui.print("Oops, I don't see that task. Please make sure its on the list!");
+            return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
-            Ui.print("Congrats! Another task down: ");
+            String output = "Congrats! Another task down: ";
             todos.get(index - 1).markAsDone();
-            Ui.print(todos.get(index - 1).toString());
+            output += todos.get(index - 1).toString() + "\n";
+            return output;
         }
     }
 
     /**
      * Displays all the tasks stored in the task list.
      */
-    public void displayToDo() {
-        Ui.print("Here are your tasks: ");
+    public String displayToDo() {
+        String output = "";
+        output += "Here are your tasks: ";
         int i = 1;
         for (Task todo : todos) {
-            String res = String.format("%d. %s", i++, todo);
-            Ui.print(res);
+            String strNew = String.format("%d. %s", i + 1, this.todos.get(i));
+            output += strNew + "\n";
         }
+        return output;
     }
 
     /**
@@ -119,15 +124,16 @@ public class TaskList {
      *
      * @param index The index of the task to be deleted.
      */
-    public void deleteTaskByIndex(int index) {
+    public String deleteTaskByIndex(int index) {
         if (index > todos.size()) {
-            Ui.print("Oops, I don't see that task. Please make sure its on the list!");
+            return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             Task deleted = todos.get(index - 1);
             this.todos.remove(index - 1);
-            Ui.print("No worries! I'll remove that for you: ");
-            Ui.print(deleted.toString());
-            Ui.print(String.format("Now you have %d task(s) in your todo-list", todos.size()));
+            String output = "No worries! I'll remove that for you: ";
+            output += deleted.toString() + "\n";
+            output += String.format("Now you have %d task(s) in your todo-list", todos.size()) + "\n";
+            return output;
         }
     }
 
@@ -136,24 +142,22 @@ public class TaskList {
      *
      * @param keyword The keyword used to search.
      */
-    public void findTask(String keyword) {
-        String lowerKeyword = keyword.toLowerCase();
-
-        List<Task> matchingTasks;
-        matchingTasks = todos.stream()
-                .filter(task -> {
-                    return task.getDescription().toLowerCase().contains(lowerKeyword);
-                })
-                .toList();
-
-        if (matchingTasks.isEmpty()) {
-            Ui.print("I can't find the task(s) you're looking for");
-            return;
+    public String findTask(String keyword) {
+        int n = todos.size();
+        String concat = "";
+        int matches = 1;
+        for (Task todo : todos) {
+            if (todo.getDescription().contains(keyword)) {
+                String representation = String.format("%d. %s", matches, todo);
+                concat += representation + "\n";
+                matches++;
+            }
         }
-
-        Ui.print("Here you go: ");
-        for (int i = 0; i < matchingTasks.size(); i++) {
-            Ui.print(String.format("%d. %s", i + 1, matchingTasks.get(i)));
+        if (matches > 1) {
+            concat = "Here are the matching tasks in your list:" + concat;
+        } else {
+            concat = "No tasks with given search keyword found. Please try again";
         }
+        return concat;
     }
 }
