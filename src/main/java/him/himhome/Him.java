@@ -32,7 +32,7 @@ public class Him {
     }
 
     public Him() {
-        this("data" + java.io.File.separator + "data.txt");
+        this("data" + java.io.File.separator + "him.txt");
     }
 
     public String getResponse(String input) {
