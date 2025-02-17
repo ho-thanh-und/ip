@@ -27,10 +27,13 @@ public class Ui {
 
     /**
      * Displays the welcome message when the program starts.
+     *
+     * @return
      */
-    public void welcomeMsg() {
+    public static String welcomeMsg() {
         print("Hello! I'm Him");
         print("How can I help you?");
+        return null;
     }
 
     /**

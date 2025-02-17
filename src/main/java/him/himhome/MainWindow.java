@@ -1,5 +1,6 @@
 package him.himhome;
 
+import him.ui.Ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -34,6 +35,7 @@ public class MainWindow extends AnchorPane {
     /** Injects the Duke instance */
     public void setDuke(Him d) {
         him = d;
+        dialogContainer.getChildren().add(DialogBox.getDukeDialog(Ui.welcomeMsg(), dukeImage));
     }
 
     /**
