@@ -31,15 +31,13 @@ public class Ui {
      * @return
      */
     public static String welcomeMsg() {
-        print("Hello! I'm Him");
-        print("How can I help you?");
-        return null;
+        return "Hello! I'm Him" + "\n" + "How can I help you?";
     }
 
     /**
      * Displays the farewell message when the program exits.
      */
-    public String farewellMsg() {
+    public static String farewellMsg() {
         return "Glad to be of service";
     }
 
