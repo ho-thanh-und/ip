@@ -109,12 +109,11 @@ public class TaskList {
      * Displays all the tasks stored in the task list.
      */
     public String displayToDo() {
-        String output = "";
-        output += "Here are your tasks: ";
-        int i = 1;
+        String output = "Here are your tasks:\n";
+        int idx = 1;
         for (Task todo : todos) {
-            String strNew = String.format("%d. %s", i + 1, this.todos.get(i));
-            output += strNew + "\n";
+            output += String.format("%d. %s\n", idx, todo);
+            idx++;
         }
         return output;
     }

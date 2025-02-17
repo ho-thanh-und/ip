@@ -23,7 +23,6 @@ public class Him {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
-
         try {
             tasks = new TaskList(Storage.getPreviousTasks(filePath));
         } catch (FileNotFoundException e) {
@@ -46,7 +45,7 @@ public class Him {
             try {
                 storage.fillFileWithTasks(tasks.getToDoList());
             } catch (IOException e) {
-                output += "Error saving to file. Please check if 'data.txt' is present in '/data/'.";
+                output += "Error saving to file. Please check if 'him.txt' is present in '/him/'.";
             }
         } else if (input.startsWith("done")) {
             try {

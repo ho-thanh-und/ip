@@ -37,7 +37,7 @@ public class Storage {
      * @throws FileNotFoundException If the file does not exist.
      */
     public static ArrayList<Task> getPreviousTasks(String filePath) throws FileNotFoundException {
-        File file = new File("data/data.txt");
+        File file = new File("data/him.txt");
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner input = new Scanner(file);
         while (input.hasNextLine()) {
@@ -57,6 +57,7 @@ public class Storage {
                     task = new Event(data[2], data[3], getBooleanFromString(data[1]));
                     tasks.add(task);
                     break;
+            default: System.out.println("Oops, I can't find this task");
             }
         }
         return tasks;
@@ -79,12 +80,12 @@ public class Storage {
      * @throws IOException If an I/O error occurs while writing to the file.
      */
     public static void fillFileWithTasks(ArrayList<Task> tasks) throws IOException {
-        FileWriter fw = new FileWriter("data/data.txt");
-        String accumulatedTasks = "";
+        FileWriter fw = new FileWriter("data/him.txt");
+        StringBuilder accumulatedTasks = new StringBuilder();
         for (Task task : tasks) {
-            accumulatedTasks = accumulatedTasks + task.toFile() + "\n";
+            accumulatedTasks.append(task.toFile()).append("\n");
         }
-        fw.write(accumulatedTasks);
+        fw.write(accumulatedTasks.toString());
         fw.close();
     }
 }
