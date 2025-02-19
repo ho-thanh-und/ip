@@ -8,8 +8,6 @@ import him.task.ToDo;
 import him.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Deals with the logic of tasks, including adding, retrieving, marking as done, deleting, and displaying tasks.
@@ -55,7 +53,7 @@ public class TaskList {
         String output = "";
         if (todo.equals("event")) {
             try {
-                String[] args = description.split("/", 2);
+                String[] args = description.split(" at ", 2);
                 task = new Event(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -63,7 +61,7 @@ public class TaskList {
             }
         } else if (todo.equals("deadline")) {
             try {
-                String[] args = description.split("/", 2);
+                String[] args = description.split(" by ", 2);
                 task = new Deadline(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -100,6 +98,20 @@ public class TaskList {
         } else {
             String output = "Congrats! Another task down: ";
             todos.get(index - 1).markAsDone();
+            output += todos.get(index - 1).toString() + "\n";
+            return output;
+        }
+    }
+
+    /**
+     * Marks a task as completed by its index.
+     */
+    public String unmarkDone(int index) {
+        if (index > todos.size()) {
+            return "Oops, I don't see that task. Please make sure its on the list!";
+        } else {
+            String output = "No worries, I'll unmark that for you! ";
+            todos.get(index - 1).unmarkAsDone();
             output += todos.get(index - 1).toString() + "\n";
             return output;
         }

@@ -43,7 +43,7 @@ public class Him {
         if (input.equalsIgnoreCase("bye")) {
             output += ui.farewellMsg();
             try {
-                storage.fillFileWithTasks(tasks.getToDoList());
+                Storage.fillFileWithTasks(tasks.getToDoList());
             } catch (IOException e) {
                 output += "Error saving to file. Please check if 'him.txt' is present in '/him/'.";
             }
@@ -53,6 +53,13 @@ public class Him {
                 output = tasks.markDone(index);
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 output += "Invalid input for 'done' command. Please provide a valid task index.";
+            }
+        } else if (input.startsWith("undone")) {
+            try {
+                int index = Integer.parseInt(parser.parse(input, 2)[1]);
+                output = tasks.unmarkDone(index);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                output += "Invalid input for 'undone' command. Please provide a valid task index.";
             }
         } else if (input.startsWith("delete")) {
             try {
@@ -70,8 +77,8 @@ public class Him {
             String[] parsedInput = parser.parse(input, 2);
             if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
                 try {
-                    tasks.addToDo(parsedInput[0], parsedInput[1]);
-                    output += "Got it. I've added this task.";
+                    String res = tasks.addToDo(parsedInput[0], parsedInput[1]);
+                    output += res;
                 } catch (ArrayIndexOutOfBoundsException e) {
                     output += "OOPS, task description cannot be empty.";
                 }
