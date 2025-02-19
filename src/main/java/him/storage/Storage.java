@@ -80,6 +80,7 @@ public class Storage {
      * @throws IOException If an I/O error occurs while writing to the file.
      */
     public static void fillFileWithTasks(ArrayList<Task> tasks) throws IOException {
+        assert tasks.size() > 1 : "The Task list looks empty";
         FileWriter fw = new FileWriter("data/him.txt");
         StringBuilder accumulatedTasks = new StringBuilder();
         for (Task task : tasks) {
