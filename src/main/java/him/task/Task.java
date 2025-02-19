@@ -14,6 +14,7 @@ public class Task {
      * @param description is the description of the task.
      */
     public Task(String description) {
+        assert description.isEmpty() : "The ToDo description for the user looks empty";
         this.description = description;
         this.isDone = false;
     }
@@ -25,6 +26,7 @@ public class Task {
      * @param isDone      Whether the task is initially marked as complete (true) or not (false).
      */
     public Task(String description, boolean isDone) {
+        assert description.isEmpty() : "The ToDo description in the file looks empty";
         this.description = description;
         this.isDone = isDone;
     }

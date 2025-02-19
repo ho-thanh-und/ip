@@ -22,6 +22,7 @@ public class Event extends Task {
      */
     public Event(String description, String time) {
         super(description);
+        assert !description.isEmpty() : "The Event description looks empty";
         this.time = time;
         isTimePresent = false;
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -41,6 +42,7 @@ public class Event extends Task {
      */
     public Event(String description, String time, boolean isDone) {
         super(description, isDone);
+        assert !description.isEmpty() : "The Event description looks empty";
         this.time = time;
         isTimePresent = false;
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {

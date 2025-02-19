@@ -93,7 +93,7 @@ public class TaskList {
      * @param index The index of the task to mark as done.
      */
     public String markDone(int index) {
-        if (index > todos.size()) {
+        if (index > todos.size() || index < 0) {
             return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             String output = "Congrats! Another task down: ";
@@ -104,10 +104,10 @@ public class TaskList {
     }
 
     /**
-     * Marks a task as completed by its index.
+     * Marks a task as incomplete by its index.
      */
     public String unmarkDone(int index) {
-        if (index > todos.size()) {
+        if (index > todos.size() || index < 0) {
             return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             String output = "No worries, I'll unmark that for you! ";
