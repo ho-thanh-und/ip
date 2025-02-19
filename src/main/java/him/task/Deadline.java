@@ -11,7 +11,7 @@ import java.util.Optional;
 public class Deadline extends Task {
     protected String by;
     protected Optional<LocalDate> dueDate;
-    protected boolean dueDatePresent;
+    protected boolean isDueDatePresent;
 
     /**
      * Creates a Deadline object with a given description and deadline date.
@@ -22,10 +22,10 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
-        dueDatePresent = false;
+        isDueDatePresent = false;
         if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueDate = Optional.of(LocalDate.parse(this.by));
-            dueDatePresent = true;
+            isDueDatePresent = true;
         } else {
             this.dueDate = Optional.empty();
         }
@@ -41,10 +41,10 @@ public class Deadline extends Task {
     public Deadline(String description, String by, boolean isDone) {
         super(description, isDone);
         this.by = by;
-        dueDatePresent = false;
+        isDueDatePresent = false;
         if (this.by.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueDate = Optional.of(LocalDate.parse(this.by));
-            dueDatePresent = true;
+            isDueDatePresent = true;
         } else {
             this.dueDate = Optional.empty();
         }
@@ -59,7 +59,7 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return dueDate
-                .filter(d -> dueDatePresent)  // Ensure dueDate is present before formatting
+                .filter(d -> isDueDatePresent)  // Ensure dueDate is present before formatting
                 .map(localDate -> "[D]" + super.toString() +
                         String.format(" (by: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
                 .orElse("[D]" + super.toString() + String.format(" (by: %s)", by));

@@ -12,7 +12,7 @@ import java.util.Optional;
 public class Event extends Task {
     protected String time;
     protected Optional<LocalDate> dueTime;
-    protected boolean timePresent;
+    protected boolean isTimePresent;
 
     /**
      * Creates an Event object with given description and time.
@@ -23,10 +23,10 @@ public class Event extends Task {
     public Event(String description, String time) {
         super(description);
         this.time = time;
-        timePresent = false;
+        isTimePresent = false;
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueTime = Optional.of(LocalDate.parse(this.time));
-            timePresent = true;
+            isTimePresent = true;
         } else {
             this.dueTime = Optional.empty();
         }
@@ -42,10 +42,10 @@ public class Event extends Task {
     public Event(String description, String time, boolean isDone) {
         super(description, isDone);
         this.time = time;
-        timePresent = false;
+        isTimePresent = false;
         if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
             this.dueTime = Optional.of(LocalDate.parse(this.time));
-            timePresent = true;
+            isTimePresent = true;
         } else {
             this.dueTime = Optional.empty();
         }
@@ -60,7 +60,7 @@ public class Event extends Task {
     @Override
     public String toString() {
         return this.dueTime
-                .filter(t -> timePresent)  // Ensure time is present before formatting
+                .filter(t -> isTimePresent)  // Ensure time is present before formatting
                 .map(localDate -> "[E]" + super.toString() +
                         String.format("(at: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
                 .orElseGet(() -> "[E]" + super.toString() + String.format("(at: %s)", this.time));
