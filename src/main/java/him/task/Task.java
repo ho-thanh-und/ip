@@ -19,10 +19,10 @@ public class Task {
     }
 
     /**
-     * Create a task and allows the user to set to whether or not its complete.
+     * Constructs a Task with the given description and completion status.
      *
-     * @param description description of the task.
-     * @param isDone is defined by its completion status.
+     * @param description A brief description of the task.
+     * @param isDone      Whether the task is initially marked as complete (true) or not (false).
      */
     public Task(String description, boolean isDone) {
         this.description = description;
