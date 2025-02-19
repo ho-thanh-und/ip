@@ -27,16 +27,17 @@ public class Ui {
 
     /**
      * Displays the welcome message when the program starts.
+     *
+     * @return
      */
-    public void welcomeMsg() {
-        print("Hello! I'm Him");
-        print("How can I help you?");
+    public static String welcomeMsg() {
+        return "Hello! I'm Him" + "\n" + "How can I help you?";
     }
 
     /**
      * Displays the farewell message when the program exits.
      */
-    public String farewellMsg() {
+    public static String farewellMsg() {
         return "Glad to be of service";
     }
 

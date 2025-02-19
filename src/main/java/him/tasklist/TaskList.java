@@ -8,8 +8,6 @@ import him.task.ToDo;
 import him.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Deals with the logic of tasks, including adding, retrieving, marking as done, deleting, and displaying tasks.
@@ -55,7 +53,7 @@ public class TaskList {
         String output = "";
         if (todo.equals("event")) {
             try {
-                String[] args = description.split("/", 2);
+                String[] args = description.split(" at ", 2);
                 task = new Event(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -63,7 +61,7 @@ public class TaskList {
             }
         } else if (todo.equals("deadline")) {
             try {
-                String[] args = description.split("/", 2);
+                String[] args = description.split(" by ", 2);
                 task = new Deadline(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -106,15 +104,28 @@ public class TaskList {
     }
 
     /**
+     * Marks a task as completed by its index.
+     */
+    public String unmarkDone(int index) {
+        if (index > todos.size()) {
+            return "Oops, I don't see that task. Please make sure its on the list!";
+        } else {
+            String output = "No worries, I'll unmark that for you! ";
+            todos.get(index - 1).unmarkAsDone();
+            output += todos.get(index - 1).toString() + "\n";
+            return output;
+        }
+    }
+
+    /**
      * Displays all the tasks stored in the task list.
      */
     public String displayToDo() {
-        String output = "";
-        output += "Here are your tasks: ";
-        int i = 1;
+        String output = "Here are your tasks:\n";
+        int idx = 1;
         for (Task todo : todos) {
-            String strNew = String.format("%d. %s", i + 1, this.todos.get(i));
-            output += strNew + "\n";
+            output += String.format("%d. %s\n", idx, todo);
+            idx++;
         }
         return output;
     }

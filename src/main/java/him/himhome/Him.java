@@ -23,7 +23,6 @@ public class Him {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
-
         try {
             tasks = new TaskList(Storage.getPreviousTasks(filePath));
         } catch (FileNotFoundException e) {
@@ -32,7 +31,7 @@ public class Him {
     }
 
     public Him() {
-        this("data" + java.io.File.separator + "data.txt");
+        this("data" + java.io.File.separator + "him.txt");
     }
 
     public String getResponse(String input) {
@@ -44,9 +43,9 @@ public class Him {
         if (input.equalsIgnoreCase("bye")) {
             output += ui.farewellMsg();
             try {
-                storage.fillFileWithTasks(tasks.getToDoList());
+                Storage.fillFileWithTasks(tasks.getToDoList());
             } catch (IOException e) {
-                output += "Error saving to file. Please check if 'data.txt' is present in '/data/'.";
+                output += "Error saving to file. Please check if 'him.txt' is present in '/him/'.";
             }
         } else if (input.startsWith("done")) {
             try {
@@ -54,6 +53,13 @@ public class Him {
                 output = tasks.markDone(index);
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 output += "Invalid input for 'done' command. Please provide a valid task index.";
+            }
+        } else if (input.startsWith("undone")) {
+            try {
+                int index = Integer.parseInt(parser.parse(input, 2)[1]);
+                output = tasks.unmarkDone(index);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                output += "Invalid input for 'undone' command. Please provide a valid task index.";
             }
         } else if (input.startsWith("delete")) {
             try {
@@ -71,8 +77,8 @@ public class Him {
             String[] parsedInput = parser.parse(input, 2);
             if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
                 try {
-                    tasks.addToDo(parsedInput[0], parsedInput[1]);
-                    output += "Got it. I've added this task.";
+                    String res = tasks.addToDo(parsedInput[0], parsedInput[1]);
+                    output += res;
                 } catch (ArrayIndexOutOfBoundsException e) {
                     output += "OOPS, task description cannot be empty.";
                 }
