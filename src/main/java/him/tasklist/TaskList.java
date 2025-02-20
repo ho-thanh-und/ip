@@ -2,6 +2,7 @@ package him.tasklist;
 
 
 import him.task.Deadline;
+import him.task.DoWithin;
 import him.task.Event;
 import him.task.Task;
 import him.task.ToDo;
@@ -43,14 +44,15 @@ public class TaskList {
     }
 
     /**
-     * Adds a new task (ToDo, Deadline, or Event) to the task list.
+     * Adds a new task (ToDo, Deadline, Event, or DoWithin) to the task list.
      *
-     * @param todo The type of task ("todo", "event", or "deadline").
+     * @param todo The type of task ("todo", "event", "deadline", or "dowithin").
      * @param description The description of the task, including date/time if applicable.
      */
     public String addToDo(String todo, String description) {
         boolean isEvent = todo.equals("event");
         boolean isDeadline = todo.equals("deadline");
+        boolean isDoWithin = todo.equals("dowithin");
         Task task = new Task("anything");
         String output = "";
         if (isEvent) {
@@ -59,7 +61,7 @@ public class TaskList {
                 task = new Event(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
-                return "Oops, what's the task description?";
+                return "Oops, format it as: event <event> by <date/time>";
             }
         } else if (isDeadline) {
             try {
@@ -67,7 +69,15 @@ public class TaskList {
                 task = new Deadline(args[0], args[1]);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
-                return "Oops, what's the task description?";
+                return "Oops, format it as: deadline <deadline> by <date/time>";
+            }
+        } else if (isDoWithin) {
+            try {
+                String[] args = description.split(" between ", 2);
+                task = new DoWithin(args[0].trim(), args[1].trim());
+                this.todos.add(task);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return "Oops, format is as: dowithin <task> between <start> and <end>";
             }
         } else {
             task = new ToDo(description);

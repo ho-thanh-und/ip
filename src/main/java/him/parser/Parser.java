@@ -36,7 +36,8 @@ public class Parser {
             return CommandType.FIND;
         } else if (trimmed.startsWith("todo")
                 || trimmed.startsWith("deadline")
-                || trimmed.startsWith("event")) {
+                || trimmed.startsWith("event")
+                || trimmed.startsWith("dowithin")) {
             return CommandType.ADD_TASK;
         } else {
             return CommandType.UNKNOWN;

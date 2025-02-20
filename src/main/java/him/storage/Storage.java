@@ -2,6 +2,7 @@ package him.storage;
 
 
 import him.task.Deadline;
+import him.task.DoWithin;
 import him.task.Event;
 import him.task.Task;
 import him.task.ToDo;
@@ -55,6 +56,10 @@ public class Storage {
                     break;
                 case "E":
                     task = new Event(data[2], data[3], getBooleanFromString(data[1]));
+                    tasks.add(task);
+                    break;
+                case "W":
+                    task = new DoWithin(data[2], data[3], getBooleanFromString(data[1]));
                     tasks.add(task);
                     break;
             default: System.out.println("Oops, I can't find this task");
