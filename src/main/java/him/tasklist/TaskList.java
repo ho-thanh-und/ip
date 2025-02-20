@@ -49,9 +49,11 @@ public class TaskList {
      * @param description The description of the task, including date/time if applicable.
      */
     public String addToDo(String todo, String description) {
+        boolean isEvent = todo.equals("event");
+        boolean isDeadline = todo.equals("deadline");
         Task task = new Task("anything");
         String output = "";
-        if (todo.equals("event")) {
+        if (isEvent) {
             try {
                 String[] args = description.split(" at ", 2);
                 task = new Event(args[0], args[1]);
@@ -59,7 +61,7 @@ public class TaskList {
             } catch (ArrayIndexOutOfBoundsException e) {
                 return "Oops, what's the task description?";
             }
-        } else if (todo.equals("deadline")) {
+        } else if (isDeadline) {
             try {
                 String[] args = description.split(" by ", 2);
                 task = new Deadline(args[0], args[1]);
@@ -93,7 +95,10 @@ public class TaskList {
      * @param index The index of the task to mark as done.
      */
     public String markDone(int index) {
-        if (index > todos.size() || index < 0) {
+        boolean isIndexOutOfBounds = index > todos.size();
+        boolean isIndexPos = index > todos.size();
+        boolean isValidIndex = isIndexOutOfBounds || isIndexPos;
+        if (isValidIndex) {
             return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             String output = "Congrats! Another task down: ";
@@ -107,7 +112,10 @@ public class TaskList {
      * Marks a task as incomplete by its index.
      */
     public String unmarkDone(int index) {
-        if (index > todos.size() || index < 0) {
+        boolean isIndexOutOfBounds = index > todos.size();
+        boolean isIndexPos = index > todos.size();
+        boolean isValidIndex = isIndexOutOfBounds || isIndexPos;
+        if (isValidIndex) {
             return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             String output = "No worries, I'll unmark that for you! ";
@@ -136,7 +144,8 @@ public class TaskList {
      * @param index The index of the task to be deleted.
      */
     public String deleteTaskByIndex(int index) {
-        if (index > todos.size()) {
+        boolean isValidIndex = index > todos.size();
+        if (isValidIndex) {
             return "Oops, I don't see that task. Please make sure its on the list!";
         } else {
             Task deleted = todos.get(index - 1);
@@ -158,7 +167,8 @@ public class TaskList {
         String concat = "";
         int matches = 1;
         for (Task todo : todos) {
-            if (todo.getDescription().contains(keyword)) {
+            boolean doesContainsKey = todo.getDescription().contains(keyword);
+            if (doesContainsKey) {
                 String representation = String.format("%d. %s", matches, todo);
                 concat += representation + "\n";
                 matches++;
