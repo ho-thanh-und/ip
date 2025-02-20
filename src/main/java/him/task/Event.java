@@ -62,7 +62,7 @@ public class Event extends Task {
     @Override
     public String toString() {
         return this.dueTime
-                .filter(t -> isTimePresent)  // Ensure time is present before formatting
+                .filter(t -> isTimePresent)  // Use of streams here
                 .map(localDate -> "[E]" + super.toString() +
                         String.format("(at: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
                 .orElseGet(() -> "[E]" + super.toString() + String.format("(at: %s)", this.time));
