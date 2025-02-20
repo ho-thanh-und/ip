@@ -1,5 +1,6 @@
 package him.himhome;
 
+import him.parser.CommandType;
 import him.parser.Parser;
 import him.storage.Storage;
 import him.task.Task;
@@ -36,56 +37,86 @@ public class Him {
 
     public String getResponse(String input) {
         ui.welcomeMsg();
+
         if (input == null) {
             return "Input cannot be null. Please provide a valid command.";
         }
-        String output = "";
-        if (input.equalsIgnoreCase("bye")) {
-            output += ui.farewellMsg();
+
+        StringBuilder outputBuilder = new StringBuilder();
+        CommandType commandType = parser.parseCommand(input);
+
+        switch (commandType) {
+        case BYE:
+            outputBuilder.append(ui.farewellMsg());
             try {
                 Storage.fillFileWithTasks(tasks.getToDoList());
             } catch (IOException e) {
-                output += "Error saving to file. Please check if 'him.txt' is present in '/him/'.";
+                outputBuilder.append("Error saving to file. Please check if 'him.txt' is present in '/him/'.");
             }
-        } else if (input.startsWith("done")) {
+            break;
+
+        case DONE:
+            // e.g. "done 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
-                output = tasks.markDone(index);
+                outputBuilder.append(tasks.markDone(index));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                output += "Invalid input for 'done' command. Please provide a valid task index.";
+                outputBuilder.append("Invalid input for 'done' command. Please provide a valid task index.");
             }
-        } else if (input.startsWith("undone")) {
+            break;
+
+        case UNDONE:
+            // e.g. "undone 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
-                output = tasks.unmarkDone(index);
+                outputBuilder.append(tasks.unmarkDone(index));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                output += "Invalid input for 'undone' command. Please provide a valid task index.";
+                outputBuilder.append("Invalid input for 'undone' command. Please provide a valid task index.");
             }
-        } else if (input.startsWith("delete")) {
+            break;
+
+        case DELETE:
+            // e.g. "delete 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
-                output = tasks.deleteTaskByIndex(index);
+                outputBuilder.append(tasks.deleteTaskByIndex(index));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                output += "Invalid input for 'delete' command. Please provide a valid task index.";
+                outputBuilder.append("Invalid input for 'delete' command. Please provide a valid task index.");
             }
-        } else if (input.equalsIgnoreCase("list")) {
-            output = tasks.displayToDo();
-        } else if (input.startsWith("find")) {
-            String[] parsedInput = parser.parse(input, 2);
-            output = tasks.findTask(parsedInput[1]);
-        } else {
-            String[] parsedInput = parser.parse(input, 2);
-            if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
-                try {
-                    String res = tasks.addToDo(parsedInput[0], parsedInput[1]);
-                    output += res;
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    output += "OOPS, task description cannot be empty.";
-                }
-            } else {
-                output += "OOPS, I don't understand this input. Please use a known command and try again.";
+            break;
+
+        case LIST:
+            outputBuilder.append(tasks.displayToDo());
+            break;
+
+        case FIND:
+            // e.g. "find book"
+            try {
+                String[] parsedInput = parser.parse(input, 2);
+                outputBuilder.append(tasks.findTask(parsedInput[1]));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                outputBuilder.append("Please provide a keyword after 'find'.");
             }
+            break;
+
+        case ADD_TASK:
+            // Covers "todo", "deadline", "event"
+            try {
+                String[] parsedInput = parser.parse(input, 2);
+                String res = tasks.addToDo(parsedInput[0], parsedInput[1]);
+                outputBuilder.append(res);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                outputBuilder.append("OOPS, task description cannot be empty.");
+            }
+            break;
+
+        case UNKNOWN:
+        default:
+            outputBuilder.append("OOPS, I don't understand this input. Please use a known command and try again.");
+            break;
         }
-        return output;
+
+        return outputBuilder.toString();
     }
 }
+
