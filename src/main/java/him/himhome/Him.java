@@ -100,7 +100,7 @@ public class Him {
             break;
 
         case ADD_TASK:
-            // Covers "todo", "deadline", "event"
+            // Covers "todo", "deadline", "event", and "dowithin"
             try {
                 String[] parsedInput = parser.parse(input, 2);
                 String res = tasks.addToDo(parsedInput[0], parsedInput[1]);
