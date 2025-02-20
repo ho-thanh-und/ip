@@ -61,7 +61,7 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return dueDate
-                .filter(d -> isDueDatePresent)  // Ensure dueDate is present before formatting
+                .filter(d -> isDueDatePresent)  // Use of Streams here
                 .map(localDate -> "[D]" + super.toString() +
                         String.format(" (by: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
                 .orElse("[D]" + super.toString() + String.format(" (by: %s)", by));
