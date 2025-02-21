@@ -9,7 +9,6 @@ import him.task.ToDo;
 import him.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 /**
  * Deals with the logic of tasks, including adding, retrieving, marking as done, deleting, and displaying tasks.
@@ -58,11 +57,20 @@ public class TaskList {
         String output = "";
         if (isEvent) {
             try {
-                String[] args = description.split(" at ", 2);
-                task = new Event(args[0], args[1]);
+                String[] parts = description.split(" from ", 2);
+                if (parts.length < 2) {
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+                String eventDescription = parts[0].trim();
+                String[] dateParts = parts[1].split(" to ", 2);
+                if (dateParts.length < 2) {
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+                String periodStr = dateParts[0].trim() + " to " + dateParts[1].trim();
+                task = new Event(eventDescription, periodStr);
                 this.todos.add(task);
             } catch (ArrayIndexOutOfBoundsException e) {
-                return "Oops, format it as: event <event> by <date/time>";
+                return "Oops, format it as: event <event> from <startDate> to <endDate>";
             }
         } else if (isDeadline) {
             try {

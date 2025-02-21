@@ -10,47 +10,71 @@ import java.util.Optional;
  * The task can store the event time as a string or convert it into a LocalDate if formatted correctly.
  */
 public class Event extends Task {
-    protected String time;
-    protected Optional<LocalDate> dueTime;
-    protected boolean isTimePresent;
+    private String startPeriod;
+    private String endPeriod;
+    private Optional<LocalDate> startDate;
+    private Optional<LocalDate> endDate;
+    private boolean hasValidDates;
 
     /**
-     * Creates an Event object with given description and time.
+     * Creates an Event task with a description and a time string in the format "<start> to <end>".
      *
-     * @param description description of the event.
-     * @param time time of the event in String format.
+     * @param description Description of the event.
+     * @param periodStr   The time range in the form "<start> to <end>".
      */
-    public Event(String description, String time) {
+    public Event(String description, String periodStr) {
         super(description);
-        assert !description.isEmpty() : "The Event description looks empty";
-        this.time = time;
-        isTimePresent = false;
-        if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            this.dueTime = Optional.of(LocalDate.parse(this.time));
-            isTimePresent = true;
-        } else {
-            this.dueTime = Optional.empty();
-        }
+        parsePeriod(periodStr);
     }
 
     /**
-     * Creates an Event object with its description, time and a specified completion status.
+     * Creates an Event task with a description, period, and completion status.
      *
-     * @param description description of the event.
-     * @param time time of the event in String format.
-     * @param isDone isDone the completion status of the event.
+     * @param description Description of the event.
+     * @param periodStr   The time range.
+     * @param isDone      Completion status of the event.
      */
-    public Event(String description, String time, boolean isDone) {
+    public Event(String description, String periodStr, boolean isDone) {
         super(description, isDone);
-        assert !description.isEmpty() : "The Event description looks empty";
-        this.time = time;
-        isTimePresent = false;
-        if(this.time.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            this.dueTime = Optional.of(LocalDate.parse(this.time));
-            isTimePresent = true;
+        parsePeriod(periodStr);
+    }
+
+    /**
+     * Splits the period string into startPeriod and endPeriod,
+     * then tries to parse them as ISO dates.
+     *
+     * @param periodStr the period string in the format "<start> to <end>"
+     */
+    private void parsePeriod(String periodStr) {
+        String[] parts = periodStr.split(" to ", 2);
+        if (parts.length == 2) {
+            this.startPeriod = parts[0].trim();
+            this.endPeriod   = parts[1].trim();
         } else {
-            this.dueTime = Optional.empty();
+            this.startPeriod = periodStr;
+            this.endPeriod   = "";
         }
+
+        this.startDate = parseIsoDateSafe(startPeriod);
+        this.endDate   = parseIsoDateSafe(endPeriod);
+        this.hasValidDates = (startDate.isPresent() && endDate.isPresent());
+    }
+
+    /**
+     * Parse an ISO date string into LocalDate.
+     *
+     * @param text the date string to parse
+     * @return an Optional containing the parsed LocalDate, or empty if invalid
+     */
+    private Optional<LocalDate> parseIsoDateSafe(String text) {
+        try {
+            if (text.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return Optional.of(LocalDate.parse(text));
+            }
+        } catch (Exception e) {
+            // stub
+        }
+        return Optional.empty();
     }
 
     /**
@@ -61,11 +85,17 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return this.dueTime
-                .filter(t -> isTimePresent)  // Use of streams here
-                .map(localDate -> "[E]" + super.toString() +
-                        String.format("(at: %s)", localDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))))
-                .orElseGet(() -> "[E]" + super.toString() + String.format("(at: %s)", this.time));
+        return startDate
+                .filter(sd -> endDate.isPresent())
+                .flatMap(sd -> endDate.map(ed -> {
+                    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM dd yyyy");
+                    String startF = sd.format(fmt);
+                    String endF   = ed.format(fmt);
+                    return "[E]" + super.toString()
+                            + String.format(" (from: %s to: %s)", startF, endF);
+                }))
+                .orElse("[E]" + super.toString()
+                        + String.format(" (from: %s to: %s)", startPeriod, endPeriod));
     }
 
     /**
@@ -75,6 +105,13 @@ public class Event extends Task {
      */
     @Override
     public String toFile() {
-        return "E | " + super.toFile();
+        String storedPeriod;
+        if (hasValidDates) {
+            // Both start and end are valid ISO dates
+            storedPeriod = startDate.get().toString() + " to " + endDate.get().toString();
+        } else {
+            storedPeriod = startPeriod + " to " + endPeriod;
+        }
+        return "E | " + super.toFile() + " | " + storedPeriod;
     }
 }

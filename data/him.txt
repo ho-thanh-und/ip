@@ -1,4 +1,5 @@
 T | 1 | read book
 D | 1 | return book | June 6th
-E | 1 | project meeting | Aug 6th 2-4pm
 T | 1 | join sports club
+E | 0 | watch game | Aug 6th 2pm to Aug 6th 6pm
+E | 0 | party | Aug 7 8pm to 10pm
