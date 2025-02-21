@@ -55,8 +55,12 @@ public class Storage {
                     tasks.add(task);
                     break;
                 case "E":
-                    task = new Event(data[2], data[3], getBooleanFromString(data[1]));
-                    tasks.add(task);
+                    if (data.length == 4) {
+                        task = new Event(data[2], data[3], getBooleanFromString(data[1]));
+                        tasks.add(task);
+                    } else {
+                        System.out.println("Oops, saved event task is missing date information.");
+                    }
                     break;
                 case "W":
                     task = new DoWithin(data[2], data[3], getBooleanFromString(data[1]));
