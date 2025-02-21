@@ -56,7 +56,6 @@ public class Him {
             break;
 
         case DONE:
-            // e.g. "done 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
                 outputBuilder.append(tasks.markDone(index));
@@ -66,7 +65,6 @@ public class Him {
             break;
 
         case UNDONE:
-            // e.g. "undone 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
                 outputBuilder.append(tasks.unmarkDone(index));
@@ -76,7 +74,6 @@ public class Him {
             break;
 
         case DELETE:
-            // e.g. "delete 2"
             try {
                 int index = Integer.parseInt(parser.parse(input, 2)[1]);
                 outputBuilder.append(tasks.deleteTaskByIndex(index));
@@ -90,7 +87,6 @@ public class Him {
             break;
 
         case FIND:
-            // e.g. "find book"
             try {
                 String[] parsedInput = parser.parse(input, 2);
                 outputBuilder.append(tasks.findTask(parsedInput[1]));
