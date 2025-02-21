@@ -1,0 +1,57 @@
+.root {
+    -fx-background-color: #552583;
+
+    -fx-background-image: url("../images/lakers2.png");
+    -fx-background-size: 400px 600px; /* Adjust as needed */
+    -fx-background-repeat: round;
+}
+
+/* Style the text field with a light gold background and purple text/border. */
+.text-field {
+    -fx-background-color: #FFF9E5;
+    -fx-text-fill: #552583;
+    -fx-font: 20px "Poppins";
+    -fx-border-color: #FDB927;
+    -fx-border-width: 2px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.button {
+    -fx-background-color: #FDB927;
+    -fx-text-fill: #552583;
+    -fx-font: italic bold 16px "Poppins";
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #FFDF70;
+    -fx-font-size: 18px;
+}
+
+.button:pressed {
+    -fx-background-color: #FFC72C;
+    -fx-font-size: 20px;
+}
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-font-size: 10px;
+    -fx-background-color: #552583;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #FDB927;
+    -fx-background-radius: 1em;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}

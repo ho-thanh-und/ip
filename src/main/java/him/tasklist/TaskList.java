@@ -9,6 +9,7 @@ import him.task.ToDo;
 import him.ui.Ui;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * Deals with the logic of tasks, including adding, retrieving, marking as done, deleting, and displaying tasks.
@@ -139,13 +140,18 @@ public class TaskList {
      * Displays all the tasks stored in the task list.
      */
     public String displayToDo() {
-        String output = "Here are your tasks:\n";
+        if (todos.isEmpty()) {
+            return "Your task list is currently empty." + "\n"
+                    + "You can add tasks like todos, events, deadlines and 'dowithins'!";
+        }
+
+        StringBuilder output = new StringBuilder("Here are your tasks:\n");
         int idx = 1;
         for (Task todo : todos) {
-            output += String.format("%d. %s\n", idx, todo);
+            output.append(String.format("%d. %s\n", idx, todo));
             idx++;
         }
-        return output;
+        return output.toString();
     }
 
     /**
