@@ -4,12 +4,12 @@
 Him is chatbot for those who want to imoprove their productivity and enjoys typing (using the CLI). Tired of mouse-clicking or writing your tasks on a boring note pad? Him here will make all your troubles go away while constantly reminding you of a special someone! Sounds exciting right? View our Guide on how to 'use Him'!
 
 ## Quick Start
-Ensure you have Java `17` or above installed in your Computer.
+Ensure you have Java `11` or above installed in your Computer.
 - Download the latest `.jar` file under `Releases`
 - Copy the file to the folder you want to use as the home folder for Him.
-  <br>**Option 1 (Recommended)**:
+  <br>**Option 1**:
 - Open your command line terminal and navigate to the home folder of the file
-- Type ```java -jar buddy.jar``` to run
+- Type ```java -jar him.jar``` to run
   <br>**Option 2**:
 - Double-click the file to start the app. The GUI should appear in a few seconds.
 
